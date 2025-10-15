@@ -21,4 +21,5 @@ target
 #.idea/
 
 # precommit hook used by nix
-.pre-comit-config.yaml
+*/**/.pre-comit-config.yaml
+.pre-commit-config.yaml
