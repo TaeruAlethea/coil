@@ -1,6 +1,6 @@
 [package]
 authors = ["TaeruAlethea <61478538+TaeruAlethea@users.noreply.github.com>"]
-edition = "2024"
+edition = "2021"
 # If you change the name here, you must also do it in flake.nix (and run `cargo generate-lockfile` afterwards)
 name = "coil-markdown"
 description = "A literate programming tool for Markdown"
