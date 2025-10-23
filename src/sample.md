@@ -2,12 +2,13 @@
 author: test 
 coil: 
   options: 
-    - keep-indention: true 
+    keep_indention: true 
   files: 
-    - Alias1: ./path/to/file/file.cs 
-    - alias2: ./path/to/file/file2.txt 
+    Alias1: ./path/to/file/file.cs 
+    alias2: ./path/to/file/file2.txt
 title: unaffect tag 
 ---
+
 
 Normal text that should not be parsed!
 

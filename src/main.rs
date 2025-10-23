@@ -1,4 +1,4 @@
-use std::{env, fs, path::PathBuf};
+use std::{collections::HashMap, env, fs, path::PathBuf};
 
 use clap::Parser;
 use markdown::{mdast::Node, Constructs, ParseOptions};
@@ -51,19 +51,30 @@ fn main() {
         other => unimplemented!("No Yaml Node found: {other:#?}"),
     };
 
-    let yaml_value = yaml.clone().value;
-    // println!("Yaml Value: {yaml_value:?}");
+    let yaml_node: Result<CoilNode, _> = serde_saphyr::from_str(yaml.clone().value.as_str());
 
-    // let doc = serde_saphyr::from_str(yaml_value);
+    match yaml_node {
+        Ok(parsed) => {
+            println!("Parse Successful: {:#?}", parsed);
+        }
+        Err(e) => {
+            eprintln!("Failed to parse YAML: {}", e);
+        }
+    }
 }
 
-#[derive(Debug)]
+#[derive(Debug, serde::Deserialize)]
+struct CoilNode {
+    coil: CoilSettings,
+}
+
+#[derive(Debug, serde::Deserialize)]
 struct CoilSettings {
     options: CoilOptions,
-    files: Vec<String>,
+    files: HashMap<String, String>,
 }
 
-#[derive(Debug)]
+#[derive(Debug, serde::Deserialize)]
 struct CoilOptions {
     keep_indention: bool,
 }
