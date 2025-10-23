@@ -29,7 +29,7 @@ fn main() {
     let target = current_dir.join(&input_file);
     println!("target: {:?}", target);
     let data = fs::read_to_string(target).expect(
-        "Unable to read file. Upward directory traversal is not allowed, so verify its not that.",
+        "Unable to read file. Upward directory traversal is not allowed, verify paths are not doing that.",
     );
 
     let options = &ParseOptions {
@@ -38,14 +38,15 @@ fn main() {
         math_text_single_dollar: false,
         ..ParseOptions::default()
     };
-
     let mdastdata = markdown::to_mdast(data.as_str(), options).unwrap();
 
     let root: markdown::mdast::Root = match mdastdata {
         Node::Root(root) => root,
         other => unimplemented!("{other:?}"),
     };
-    // println!("root: {root:#?}");
+    if args.verbose {
+        println!("root: {root:#?}");
+    };
 
     let yaml = match root.children.get(0) {
         Some(Node::Yaml(yaml)) => yaml,
