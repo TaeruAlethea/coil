@@ -52,21 +52,26 @@ fn main() {
         other => unimplemented!("No Yaml Node found: {other:#?}"),
     };
 
-    let yaml_node: Result<CoilNode, _> = serde_saphyr::from_str(yaml.clone().value.as_str());
+    let yaml_node_preparse: Result<CoilNode, _> =
+        serde_saphyr::from_str(yaml.clone().value.as_str());
 
-    match yaml_node {
+    let yaml_node = match yaml_node_preparse {
         Ok(parsed) => {
-            println!("Parse Yaml Frontmatter Successful: {:#?}", parsed);
+            println!("Parse Successful: {:#?}", parsed);
         }
         Err(e) => {
-            eprintln!("Failed to parse Yaml Frontmatter: {}", e);
+            eprintln!("Failed to parse YAML: {}", e);
         }
-    }
+    };
 
-    let code_blocks = root.children.iter().filter_map(|node| match node {
-        Node::Code(node) => Some(node),
-        _ => None,
-    });
+    let code_blocks = root
+        .children
+        .iter()
+        .filter_map(|node| match node {
+            Node::Code(node) => Some(node),
+            _ => None,
+        })
+        .collect::<Vec<_>>();
 
     println!("Blocks found: {code_blocks:#?}");
 }
