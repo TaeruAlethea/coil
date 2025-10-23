@@ -54,7 +54,7 @@ fn main() {
     let yaml_value = yaml.clone().value;
     // println!("Yaml Value: {yaml_value:?}");
 
-    let doc = serde_saphyr::from_str(yaml_value);
+    // let doc = serde_saphyr::from_str(yaml_value);
 }
 
 #[derive(Debug)]
