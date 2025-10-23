@@ -52,6 +52,23 @@ fn main() {
         other => unimplemented!("No Yaml Node found: {other:#?}"),
     };
 
+    let code_blocks = root
+        .children
+        .iter()
+        .filter_map(|node| match node {
+            Node::Code(node) => Some(node),
+            _ => None,
+        })
+        .collect::<Vec<_>>();
+
+    let code_blocks_with_metas = code_blocks
+        .iter()
+        .filter(|block| block.meta.is_some())
+        .map(|block| block.meta.clone().unwrap())
+        .collect::<Vec<_>>();
+
+    println!("Blocks found: {code_blocks_with_metas:#?}");
+
     let yaml_node_preparse: Result<CoilNode, _> =
         serde_saphyr::from_str(yaml.clone().value.as_str());
 
@@ -63,17 +80,6 @@ fn main() {
             eprintln!("Failed to parse YAML: {}", e);
         }
     };
-
-    let code_blocks = root
-        .children
-        .iter()
-        .filter_map(|node| match node {
-            Node::Code(node) => Some(node),
-            _ => None,
-        })
-        .collect::<Vec<_>>();
-
-    println!("Blocks found: {code_blocks:#?}");
 }
 
 #[derive(Debug, serde::Deserialize)]
