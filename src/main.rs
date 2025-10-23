@@ -1,11 +1,7 @@
 use std::{env, fs, path::PathBuf};
 
 use clap::Parser;
-use markdown::{
-    mdast::{Node, Yaml},
-    Constructs, ParseOptions,
-};
-use yaml_rust2::YamlLoader;
+use markdown::{mdast::Node, Constructs, ParseOptions};
 
 #[derive(Parser, Debug)]
 #[clap(author = "TaeruAlethea", version, about)]
@@ -50,18 +46,26 @@ fn main() {
         other => unimplemented!("{other:?}"),
     };
 
-    println!("success! Root is {root:#?}");
-
     let yaml = match root.children.get(0) {
         Some(Node::Yaml(yaml)) => yaml,
         other => unimplemented!("No Yaml Node found: {other:#?}"),
     };
 
     let yaml_value = yaml.clone().value;
-    println!("Yaml Value: {yaml_value:?}");
+    // println!("Yaml Value: {yaml_value:?}");
 
-    let doc = YamlLoader::load_from_str(yaml_value.as_str()).unwrap();
-    println!("doc: {doc:#?}")
+    let doc = serde_saphyr::from_str(yaml_value);
+}
+
+#[derive(Debug)]
+struct CoilSettings {
+    options: CoilOptions,
+    files: Vec<String>,
+}
+
+#[derive(Debug)]
+struct CoilOptions {
+    keep_indention: bool,
 }
 
 const CONSTRUCTS_FM_CF_ONLY: Constructs = Constructs {

@@ -1,6 +1,6 @@
 [package]
 authors = ["TaeruAlethea <61478538+TaeruAlethea@users.noreply.github.com>"]
-edition = "2021"
+edition = "2024"
 # If you change the name here, you must also do it in flake.nix (and run `cargo generate-lockfile` afterwards)
 name = "coil-markdown"
 description = "A literate programming tool for Markdown"
@@ -11,4 +11,4 @@ version = "0.1.0"
 [dependencies]
 clap = { version = "4.3.14", features = ["derive"] }
 markdown = "1.0.0"
-yaml-rust2 = "0.10.4"
+serde-saphyr = "0.0.6"
