@@ -19,6 +19,10 @@ Test code is not verified to be actual C# code. It shouldn't have to be.
     }
 ```
 
+```
+Code block with no meta data
+```
+
 Normal text
 `An inline that should also be ignored`
 
@@ -29,7 +33,7 @@ Normal text
 
 Normal text `with inline` this should be handled nicely.
 
-```python coil: { options.keep-indention: false, files.target: "./path/to/file/file3.py" }
+``` coil: { options.keep-indention: false, files.target: "./path/to/file/file3.py" }
   This should not be indented
     this should not be indented
 ```
