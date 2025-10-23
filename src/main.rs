@@ -41,10 +41,11 @@ fn main() {
 
     let mdastdata = markdown::to_mdast(data.as_str(), options).unwrap();
 
-    let root = match mdastdata {
+    let root: markdown::mdast::Root = match mdastdata {
         Node::Root(root) => root,
         other => unimplemented!("{other:?}"),
     };
+    // println!("root: {root:#?}");
 
     let yaml = match root.children.get(0) {
         Some(Node::Yaml(yaml)) => yaml,
@@ -55,12 +56,19 @@ fn main() {
 
     match yaml_node {
         Ok(parsed) => {
-            println!("Parse Successful: {:#?}", parsed);
+            println!("Parse Yaml Frontmatter Successful: {:#?}", parsed);
         }
         Err(e) => {
-            eprintln!("Failed to parse YAML: {}", e);
+            eprintln!("Failed to parse Yaml Frontmatter: {}", e);
         }
     }
+
+    let code_blocks = root.children.iter().filter_map(|node| match node {
+        Node::Code(node) => Some(node),
+        _ => None,
+    });
+
+    println!("Blocks found: {code_blocks:#?}");
 }
 
 #[derive(Debug, serde::Deserialize)]
